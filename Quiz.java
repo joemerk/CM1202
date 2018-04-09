@@ -3,27 +3,43 @@ import java.awt.*;
 import java.awt.event.*;
 public class Quiz extends Frame implements ActionListener{  
 	JLabel QuestionText; JLabel ResultOfButtonPress;
-	JButton[] Buttons = new JButton[4];
+  JButton RestartButton; JButton QuitButton;
+	JButton[] AnswerButton = new JButton[4];
   int QuestionNumber = 0; String CorrectAnswer; int QuestionsAnsweredCorrectly = 0;
+  boolean QuizFinished = false;
 	Quiz(){  
+    this.setTitle("Quiz");
+
     ResultOfButtonPress = new JLabel();
-    ResultOfButtonPress.setBounds(100, 400, 400, 20);
+    ResultOfButtonPress.setBounds(100, 350, 400, 20);
     add(ResultOfButtonPress);
 
     QuestionText = new JLabel();
     QuestionText.setBounds(100, 50, 400, 80);
     add(QuestionText);
 
+    RestartButton = new JButton();
+    RestartButton.addActionListener(this);
+    RestartButton.setText("Restart");
+    RestartButton.setBounds(50, 400, 150, 30);
+    add(RestartButton);
+
+    QuitButton = new JButton();
+    QuitButton.addActionListener(this);
+    QuitButton.setText("Quit");
+    QuitButton.setBounds(350, 400, 150, 30);
+    add(QuitButton);
+
     for (int i=0; i<4; i++) {
-      Buttons[i] = new JButton();
-      Buttons[i].addActionListener(this);
+      AnswerButton[i] = new JButton();
+      AnswerButton[i].addActionListener(this);
     }
-    Buttons[0].setBounds(25, 175, 200, 60);
-    Buttons[1].setBounds(25, 275, 200, 60);
-    Buttons[2].setBounds(325, 175, 200, 60);
-    Buttons[3].setBounds(325, 275, 200, 60);
+    AnswerButton[0].setBounds(25, 150, 200, 60);
+    AnswerButton[1].setBounds(25, 250, 200, 60);
+    AnswerButton[2].setBounds(325, 150, 200, 60);
+    AnswerButton[3].setBounds(325, 250, 200, 60);
     for (int i=0; i<4; i++) {
-      add(Buttons[i]);;
+      add(AnswerButton[i]);;
     }
  
     moveToNextQuestion();
@@ -49,7 +65,7 @@ public class Quiz extends Frame implements ActionListener{
     String[] PossibleAnswers = {FirstAnswer, SecondAnswer, ThirdAnswer, FourthAnswer};
 
     for (int i=0; i<4; i++) {
-      Buttons[i].setText(PossibleAnswers[i]);
+      AnswerButton[i].setText(PossibleAnswers[i]);
     }
     revalidate();
     repaint();
@@ -58,18 +74,36 @@ public class Quiz extends Frame implements ActionListener{
   public void actionPerformed(ActionEvent evt) {
     String btnLabel = evt.getActionCommand();
 
-    if (btnLabel.equals(CorrectAnswer)){
-        ResultOfButtonPress.setText("You got it right.");
-        QuestionsAnsweredCorrectly = QuestionsAnsweredCorrectly + 1;
-    } else {
-    	ResultOfButtonPress.setText("Too bad, the correct answer was " + CorrectAnswer);
+    switch(btnLabel){
+      case "Restart": QuestionsAnsweredCorrectly = 0;
+                      QuestionNumber = 0;
+                      Questions.resetListOfAnsweredQuestions();
+                      ResultOfButtonPress.setText("Quiz Restarted");
+                      if (QuizFinished == true){
+                        for (int i=0; i<4; i++) {
+                          AnswerButton[i].addActionListener(this);
+                        }
+                      }
+                      QuizFinished = false;
+                      break;
+      case "Quit":    this.dispose();
+                      break;
+      default:        if (btnLabel.equals(CorrectAnswer)){
+                        ResultOfButtonPress.setText("You got it right.");
+                        QuestionsAnsweredCorrectly = QuestionsAnsweredCorrectly + 1;
+                      } else {
+                        ResultOfButtonPress.setText("Too bad, the correct answer was " + CorrectAnswer);
+                      }
+                      break;
     }
+
     if (QuestionNumber < Questions.SizeOfFile){
       moveToNextQuestion();
     }else{
-      ResultOfButtonPress.setText("Congratulations, you scored " + QuestionsAnsweredCorrectly + "/10");
+      ResultOfButtonPress.setText("Congratulations, you scored " + QuestionsAnsweredCorrectly + "/" + Questions.SizeOfFile);
+      QuizFinished = true;
       for (int i=0; i<4; i++) {
-          Buttons[i].removeActionListener(this);
+          AnswerButton[i].removeActionListener(this);
       }
     }
    }

@@ -60,4 +60,8 @@ class Questions {
         ListOfAnsweredQuestions.add(LineNumber);
         return QuestionReturned;
   }
+
+  public static void resetListOfAnsweredQuestions( ){
+    ListOfAnsweredQuestions.clear();
+  }
 }
