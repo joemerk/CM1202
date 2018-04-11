@@ -11,7 +11,7 @@ public class Quiz extends Frame implements ActionListener{
     this.setTitle("Quiz");
 
     ResultOfButtonPress = new JLabel();
-    ResultOfButtonPress.setBounds(100, 350, 400, 20);
+    ResultOfButtonPress.setBounds(100, 325, 400, 80);
     add(ResultOfButtonPress);
 
     QuestionText = new JLabel();
@@ -100,7 +100,7 @@ public class Quiz extends Frame implements ActionListener{
     if (QuestionNumber < Questions.SizeOfFile){
       moveToNextQuestion();
     }else{
-      ResultOfButtonPress.setText("Congratulations, you scored " + QuestionsAnsweredCorrectly + "/" + Questions.SizeOfFile);
+      ResultOfButtonPress.setText("<html>" + ResultOfButtonPress.getText() + "<br/> Congratulations, you scored " + QuestionsAnsweredCorrectly + "/" + Questions.SizeOfFile + "</html>");
       QuizFinished = true;
       for (int i=0; i<4; i++) {
           AnswerButton[i].removeActionListener(this);
