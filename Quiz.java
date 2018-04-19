@@ -109,6 +109,7 @@ public class Quiz extends Frame implements ActionListener{
    }
 
   public static void main(String[] args) { 
+    Questions.SetSizeOfFile();
   	new Quiz();
   }
 }
