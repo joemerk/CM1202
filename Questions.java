@@ -9,6 +9,25 @@ class Questions {
 	public Questions( String title, String barcode) {
 	}
 
+  public static void SetSizeOfFile(){
+    String FileName = "Questions.txt";
+    int Count = 1;
+    String CurrentLineToBeRead;
+    try {
+      FileInputStream fis = new FileInputStream(FileName);
+      BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+      while((CurrentLineToBeRead = br.readLine()) != null){
+        Count = Count + 1;
+      }
+        br.close();
+    }catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    SizeOfFile = Count;
+  }
+
 	public static void AddQuestion( String[] QuestionDetails ) {
       String FileName = "Questions.txt";
       String DataToBeWritten;
@@ -34,13 +53,13 @@ class Questions {
       	String CurrentLineToBeRead;
       	String[] QuestionReturned = {};
       	int LineNumber;
+        do{
+          Random Random = new Random();
+      		do{
+      		LineNumber = Random.nextInt(SizeOfFile) + 1;
+      		}while(ListOfAnsweredQuestions.contains(LineNumber) != false);
 
-      	Random Random = new Random();
-  		do{
-  		LineNumber = Random.nextInt(SizeOfFile) + 1;
-  		}while(ListOfAnsweredQuestions.contains(LineNumber) != false);
-
-       try {
+          try {
             FileInputStream fis = new FileInputStream(FileName);
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
@@ -53,9 +72,10 @@ class Questions {
             }
 
             br.close();
-      } catch (Exception e) {
-          e.printStackTrace();
-        }
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+        }while(QuestionReturned[6].equals(QuizPresets.getChoice()) == false);
 
         ListOfAnsweredQuestions.add(LineNumber);
         return QuestionReturned;
