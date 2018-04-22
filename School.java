@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.*;
 
 
-public class School {
+public class School extends Frame {
 
-    public static void main(String[] args) throws IOException {
+    School() throws IOException {
 
         String FileName = "Schools.txt";
 
@@ -23,7 +23,7 @@ public class School {
         schoolFile.close();
 
         String[] array = schoolArray.toArray(new String[schoolArray.size()]);
-        JComboBox c = new JComboBox(array);
+        JComboBox<String> c = new JComboBox<String>(array);
     
         JLabel l1 = new JLabel("Please select a school");
         JButton button = new JButton("Select");
@@ -32,27 +32,29 @@ public class School {
         JLabel l3 = new JLabel();
     
         JFrame f = new JFrame();
-        f.setVisible(true);
-        f.setSize(400,400);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        
 
         JButton quitButton = new JButton("Quit");
+
         quitButton.setBounds(350, 200, 150, 30);
-        
+
+        l1.setBounds(15, 100, 150, 30);
+        l2.setBounds(15, 200, 150, 30);
+        l3.setBounds(200, 200, 150, 30);
+        c.setBounds(250, 100, 75, 30);
+        button.setBounds(350, 100, 150, 30);
+
     
-        JPanel p = new JPanel();
-    
-        p.add(l1);
-        p.add(c);
-        p.add(button);
-        p.add(quitButton);
-        p.add(l2);
-        p.add(l3);
-    
-        f.add(p);
-    
+        f.add(l1);
+        f.add(c);
+        f.add(button);
+        f.add(quitButton);
+        f.add(l2);
+        f.add(l3);
+
+        f.setSize(575, 500);
+        f.setLayout(null);
+        f.setVisible(true);
+        f.setResizable(false);
     
         button.addActionListener(new ActionListener(){
 
@@ -73,6 +75,9 @@ public class School {
         });      
 
     }
-    
+
+    public static void main(String[] args) throws IOException {
+        new School();
+    }
 }
 
