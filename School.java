@@ -70,7 +70,8 @@ public class School extends Frame {
 
             public void actionPerformed(ActionEvent e){
 
-                System.exit(0);
+                f.setVisible(false);
+                f.dispose();
             }
         });      
 
