@@ -27,7 +27,6 @@ class LogIn extends Frame implements ActionListener, CallBack{
 	}
 	public void getAdminPermissions(CallBack callBackObj){
 		callBack = callBackObj;
-		System.out.println("s");
         frame = new JFrame();
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -56,14 +55,13 @@ class LogIn extends Frame implements ActionListener, CallBack{
 
         frame.setSize(500,500);
         frame.setVisible(true);
+        bringToFront();
 	}
 	public void getNewPassword(){
-		System.out.println("?");
         frame = new JFrame();
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         textField = new JTextField("Enter new password",20);
-        textField.setText("Enter new password");
         inputButton = new JButton();
         cancelButton = new JButton();
         inputButton.setText("Set");
@@ -88,13 +86,13 @@ class LogIn extends Frame implements ActionListener, CallBack{
 
         frame.setSize(500,500);
         frame.setVisible(true);
+        bringToFront();
 	}
 	public void actionPerformed(ActionEvent evt) {
 		String btnLabel = evt.getActionCommand();	
 		//this.dispose();
 		switch(btnLabel){
 			case "Enter":
-			    	System.out.println("Enter");
 			    	frame.dispose();
 			    	call(callBack,textField.getText());
 			    	
@@ -135,7 +133,10 @@ class LogIn extends Frame implements ActionListener, CallBack{
 	public void callBack(){
 		getNewPassword();
 	}
-
+	public void bringToFront(){
+		frame.toFront();
+        frame.repaint();
+    }
 
 
 }

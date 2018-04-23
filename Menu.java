@@ -61,7 +61,7 @@ public class Menu extends Frame implements ActionListener, CallBack{
 		setLayout(null);
 		setVisible(true);
 		setResizable(false);
-
+		adminLogIn.bringToFront();
 	}
 
 	public void actionPerformed(ActionEvent evt) {

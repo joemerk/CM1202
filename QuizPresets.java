@@ -72,11 +72,12 @@ public class QuizPresets extends Frame implements ActionListener{
 
     	String btnLabel = evt.getActionCommand();
         if (btnLabel.equals("Quit")){
-            this.dispose();
+            
         }
         else{
     	chosenTheme = btnLabel;
         }
+        this.dispose();
     }
 
     public static String getChoice(){
