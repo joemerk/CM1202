@@ -79,7 +79,7 @@ public class Menu extends Frame implements ActionListener, CallBack{
 					break;
 			case "Select School":
 					try {
-  					new School();
+  					new addSchool(adminLogIn);
 					}
 					catch(Exception E){};
 					break;
