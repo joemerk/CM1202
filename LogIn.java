@@ -3,51 +3,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LogIn extends Frame implements ActionListener{
-	private String adminPassword;
+interface CallBack {                   
+    void callBack(String password);
+}
+
+class LogIn extends Frame implements ActionListener{
 	JLabel title;
 	JButton inputButton, cancelButton;
 	JTextField textField;
-	String tempInput;
-	private String hashPassword(String password){
-		try{
-			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-			messageDigest.update(password.getBytes());
-			String encryptedString = new String(messageDigest.digest());
-			return encryptedString;
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "";
-		}
-		
+	CallBack callBack;
+	private String adminPassword;
+	public LogIn(CallBack callBackObj){
+		callBack = callBackObj;
 	}
-	public String changePassword(){
-		if (adminPassword == null){
-			passwordInput();
-			adminPassword = hashPassword(tempInput);
-			return "Success";
-		}else{
-			if (getAdminPermissions()){
-				passwordInput();
-				adminPassword = hashPassword(tempInput);
-				return "Success";
-			}
-			else{
-				return "Incorrect password";
-			}
-	
-		}
-	}
-	
 	private boolean verifyPassword(String password){
 		return hashPassword(password).equals(adminPassword);
 	}
-	public boolean getAdminPermissions(){
-		passwordInput();
-		return verifyPassword(tempInput);
-	}
-	public void passwordInput(){
-
+	public void getNewPasswordInput(){
         //JFrame frame = new JFrame();
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,6 +39,7 @@ public class LogIn extends Frame implements ActionListener{
         add(textField);
         add(inputButton);
         add(cancelButton);
+        //addWindowListener(this);
 
         //pack frame to component preferred sizes
         //frame.pack();
@@ -80,8 +53,7 @@ public class LogIn extends Frame implements ActionListener{
 		switch(btnLabel){
 			case "Enter":
 			    	System.out.println("Enter");
-			    	tempInput = textField.getText();
-			    	System.out.println(tempInput);
+			    	call(callBack,textField.getText());
 			    	this.dispose();
 					break;
 			case "Cancel":
@@ -89,4 +61,96 @@ public class LogIn extends Frame implements ActionListener{
 					break;
 		}
 	}
+	public void call(CallBack callBack,String password){
+		if (verifyPassword(password)){
+			callBack.callBack();
+		}
+	}
+	private String hashPassword(String password){
+		//try{
+		//	MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		//	messageDigest.update(password.getBytes());
+		//	String encryptedString = new String(messageDigest.digest());
+		//	return encryptedString;
+		//}catch (Exception e) {
+		//	System.out.println("error " + e.getMessage());
+		//	return "";
+		//}
+		return password;
+		
+	}
+	//public void changePassword(){
+	//	
+	//		if (getAdminPermissions()){
+	//			input.getNewPasswordInput();
+	//			adminPassword = hashPassword(tempInput);
+	//		}
+	//		else{
+	//			JOptionPane.showMessageDialog(null, "infoMessage", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+	//		}
+	//
+	//}
+
+
+
 }
+
+//class ChangePassword implements CallBack{
+//	LogIn logIn;
+//	public ChangePassword(LogIn logIn){
+//		this.logIn = logIn;
+//	}
+//	callBack(){
+//		GetAdminPermission password = new GetAdminPermission();
+//		if(password.valid){
+//			input = new GetPasswordInput(this);
+//			
+//		}
+//	}
+//}
+//class GetAdminPermission implements CallBack
+
+//public class LogIn implements CallBack{
+//	private String adminPassword;
+//	private String tempInput;
+//	GetPasswordInput input;
+//	public LogIn(){
+//		input = new GetPasswordInput(this);
+//		adminPassword = hashPassword("abc");
+//		System.out.println(adminPassword);
+//		
+//	}
+//	private String hashPassword(String password){
+//		//try{
+//		//	MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+//		//	messageDigest.update(password.getBytes());
+//		//	String encryptedString = new String(messageDigest.digest());
+//		//	return encryptedString;
+//		//}catch (Exception e) {
+//		//	System.out.println("error " + e.getMessage());
+//		//	return "";
+//		//}
+//		return password;
+//		
+//	}
+//	//public void changePassword(){
+//	//	
+//	//		if (getAdminPermissions()){
+//	//			input.getNewPasswordInput();
+//	//			adminPassword = hashPassword(tempInput);
+//	//		}
+//	//		else{
+//	//			JOptionPane.showMessageDialog(null, "infoMessage", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
+//	//		}
+//	//
+//	//}
+//	
+//	private boolean verifyPassword(String password){
+//		return hashPassword(password).equals(adminPassword);
+//	}
+//	public boolean getAdminPermissions(){
+//		input.getNewPasswordInput();
+//		return verifyPassword(tempInput);
+//	}	
+//}
+//

@@ -8,11 +8,13 @@ public class Menu extends Frame implements ActionListener{
 	Statistics stats = new Statistics();
 	Quiz quiz;
 	QuizPresets qp;
+	LogIn adminLogIn;
 
 	JLabel title;
 	JButton setupQuiz, takeQuiz, statistics, QuitButton, setSchool;
 
 	Menu() {
+		adminLogIn = new LogIn();
 
 		title = new JLabel();
 		title.setBounds(100,50,400,80);
@@ -76,7 +78,10 @@ public class Menu extends Frame implements ActionListener{
 					catch(Exception E){};
 					break;
 			case "View statistics":
+					
 					new showStats(stats);
+					
+					
 					break;
 			case "Quit":
 					this.dispose();
