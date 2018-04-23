@@ -10,9 +10,15 @@ import java.util.*;
 
 public class School extends Frame {
 
-    School() throws IOException {
+    public Statistics stats;
+
+    School(Statistics stats) throws IOException {
+
+        this.stats = stats;
 
         String FileName = "Schools.txt";
+
+        JLabel title = new JLabel("School Selection");
 
         BufferedReader schoolFile = new BufferedReader(new FileReader(FileName));
         List<String> schoolArray = new ArrayList<String>();
@@ -35,19 +41,28 @@ public class School extends Frame {
 
         JButton quitButton = new JButton("Quit");
 
+        JButton takeQuizButton = new JButton("Take Quiz");
+
         quitButton.setBounds(350, 200, 150, 30);
+        takeQuizButton.setBounds(250, 300, 150, 30);
 
         l1.setBounds(15, 100, 150, 30);
         l2.setBounds(15, 200, 150, 30);
-        l3.setBounds(200, 200, 150, 30);
-        c.setBounds(250, 100, 75, 30);
+        l3.setBounds(150, 200, 150, 30);
+        c.setBounds(160, 100, 75, 30);
         button.setBounds(350, 100, 150, 30);
+        title.setBounds(250,25,400,80);
+        c.setSize(180, c.getPreferredSize().height);
+        takeQuizButton.setVisible(false);
 
-    
+
+        f.add(takeQuizButton);
+        f.add(title);
         f.add(l1);
         f.add(c);
         f.add(button);
         f.add(quitButton);
+        f.add(takeQuizButton);
         f.add(l2);
         f.add(l3);
 
@@ -61,8 +76,10 @@ public class School extends Frame {
             public void actionPerformed(ActionEvent e){
 
                 String schoolSelected = c.getSelectedItem().toString();
-                l2.setText("Your chosen school is");
+                l2.setText("Your chosen school is:");
                 l3.setText(schoolSelected);
+                takeQuizButton.setVisible(true);
+
             }
         });
 
@@ -73,12 +90,23 @@ public class School extends Frame {
                 f.setVisible(false);
                 f.dispose();
             }
-        });      
+        });
+
+        takeQuizButton.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e){
+
+                new Quiz(stats);
+                f.setVisible(false);
+                f.dispose();                    
+
+            }
+        });        
 
     }
 
-    public static void main(String[] args) throws IOException {
-        new School();
-    }
+   // public static void main(String[] args) throws IOException {
+     //  new School();
+    //}
 }
 
