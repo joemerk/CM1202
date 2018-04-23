@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 class amendFinal extends Frame implements ActionListener{
 	JLabel title;
@@ -60,7 +63,7 @@ class amendFinal extends Frame implements ActionListener{
 
 	public static void readFile(){
 		try{
-			FileInputStream fis = new FileInputStream("Questions.txt",true);
+			FileInputStream fis = new FileInputStream("Questions.txt");
 		    BufferedReader buffer = new BufferedReader(new InputStreamReader(fis));
 		    String s;
 		    int counter = 1;
@@ -70,10 +73,12 @@ class amendFinal extends Frame implements ActionListener{
 		    //Questions[counter];
 		    //counter = 0;
 		    buffer.close();
+		    FileSize = counter;
 		}catch (Exception e){
 			e.printStackTrace();
+			FileSize = 0;
 		}
-		FileSize = counter;
+		
 	}
 
 	public void deleteQuestionG(){
@@ -101,7 +106,7 @@ class amendFinal extends Frame implements ActionListener{
 
 		switch(btnLabel){
 			case "Add a question":
-					readfile();
+					readFile();
 					addQuestionG();
 					//FileSize = FileSize + 1;
 					String dataToBeWritten = textField.getText();
