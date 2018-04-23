@@ -1,10 +1,16 @@
 import java.util.Vector;
+import java.util.Scanner;
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.io.*;
 
 class Statistics {
 
 	private static Vector<Vector<Integer>> correctChoices = new Vector<Vector<Integer>>(); //Catagorized by Question ID (0,1,2,3.. etc)
+	private static Vector<Vector<String>> correctStrings = new Vector<Vector<String>>();
 	private static Vector<Integer> quizLengths = new Vector<Integer>(); 
-
+	private static Vector<String> themes;
 	private Vector<QuizData> dataSet = new Vector<QuizData>();
 
 	public class Answer { //'struct' for answers, easier than 2d arrays/vectors
@@ -47,7 +53,9 @@ class Statistics {
 	} 
 
 
-	public Statistics() { //??
+	public Statistics() {
+		themes = getThemes();
+		getQuizAnswers();
 	}
 
 	public void addQuiz(int[] answers) {
@@ -58,9 +66,13 @@ class Statistics {
 
 	}
 
-	public void appendQuizData(int quizID, int[] answers, String school){
-		QuizData qd = new QuizData(quizID, answers, school);
-		dataSet.add(qd);
+	public void appendQuizData(String quizTheme, int[] answers, String school){
+		for (int i = 0; i < themes.size(); i ++){
+			if (themes.get(i).contains(quizTheme)) {
+				QuizData qd = new QuizData(i, answers, school);
+				dataSet.add(qd);
+			}
+		}
 	}
 
 	public Vector<Answer> retrieveStaticstics(int quizID, int questionNum) {
@@ -95,10 +107,16 @@ class Statistics {
 		return finalData;
 	}
 
-	public void generateInterpretation(int quizID) {
-
+	public String generateInterpretation(int quizID) {
+		String interpretation = "<html>";
 		Vector<Vector<Answer>> allData = new Vector<Vector<Answer>>(); //QuestionData		
 		int vIndex = 1;
+
+		//System.out.println(quizID + " quizlength: " + quizLengths.size());
+		//try {
+		if (quizLengths.size()-1 < quizID) {
+			return ("No quiz data found for this theme.");
+		}
 
 		for (int i = 0; i < quizLengths.get(quizID); i++) {
 			//System.out.println(quizID);
@@ -184,14 +202,130 @@ class Statistics {
 		}
 		
 
-		System.out.println("Quiz ID - " + quizID);
+		interpretation += ("Quiz ID - " + quizID + "<br>");
 		for (int i = 0; i <= quizLengths.get(quizID)-1; i++) {
-			System.out.println("Question " + (i+1) + " -- Total answers: " + qTotals.get(i) + "; Correct Answers: " + qCorrects.get(i) + "; Most common answer: " + qModes.get(i));
+			interpretation += ("Question " + (i+1) + " -- Total answers: " + qTotals.get(i) + "; Correct Answers: " + qCorrects.get(i) + "; Most common answer: " + qModes.get(i) + "<br>");
 		}
 		
-		System.out.println("Total Quiz Accuracy: " + correctPerc*100 + "%");
-		System.out.println("Question with highest accuracy: Question " + maxIndex);
-		System.out.println("Question with lowest accuracy: Question " + minIndex) ;
+		interpretation += ("Total Quiz Accuracy: " + correctPerc*100 + "%" + "<br>");
+		interpretation += ("Question with highest accuracy: Question " + maxIndex + "<br>");
+		interpretation +=("Question with lowest accuracy: Question " + minIndex + "<br>") ;
+		interpretation += ("</html>");
+
+		return interpretation;
 
 	}
+
+	public static Vector<String> getThemes(){
+		Vector<String> themes = new Vector<String>();
+
+		try{
+			String filename = "Questions.txt";
+			File fileIn = new File(filename);
+			Scanner in = new Scanner(fileIn);
+
+			while (in.hasNextLine()) {
+				String line = in.nextLine();
+				String[] parts = line.split(",");
+				String theme = parts[6];
+
+				themes.add(theme);
+		   }
+		in.close();
+		}
+		catch( Exception e ) {
+            System.out.println( "Problem reading file... ");
+           // throw e;  // re-raise exception
+        }
+        Set<String> temp = new HashSet<String>();
+        temp.addAll(themes);
+        themes.clear();
+        themes.addAll(temp);
+
+        return themes;
+	}
+
+	public void getQuizAnswers( ){
+
+      	String fileName = "Questions.txt";
+      	String currentLine;
+      	String[] question = {};
+      	int line;
+
+      	Vector<Vector<Integer>> _questionA = new Vector<Vector<Integer>>();
+      	Vector<Vector<String>> _questionS = new Vector<Vector<String>>();
+
+      	for (int q = 0; q < themes.size(); q++){
+      		_questionA.add(new Vector<Integer>());
+      		_questionS.add(new Vector<String>());
+      	}
+
+          try {
+            FileInputStream fis = new FileInputStream(fileName);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            while((currentLine = br.readLine()) != null){
+                question = currentLine.split(",");
+               // System.out.println(question[0]); gets to here
+                for (int i = 0; i < themes.size(); i++) {
+                	if (question[6].contains(themes.get(i))) {
+                		for (int j = 1; j <= 4; j++){
+                			if (question[j].contains(question[5])) {
+                				_questionA.get(i).add(j);
+                				_questionS.get(i).add(question[5]);
+                				//System.out.println("j:" + j);
+                			}
+                		}
+                	}
+                }
+            }
+
+            	for (Vector<Integer> vi : _questionA) {
+            		int[] ta = new int[vi.size()];
+            		int count = 0;
+            		for (Integer k : vi) {
+            			ta[count] = k;
+            			count++;
+            			//System.out.print(k);
+            		}
+            		addQuiz(ta);
+            	}
+            	
+            	correctStrings = _questionS;
+
+            	/*System.out.println();
+            	for (String s : correctStrings.get(0)) {
+            		System.out.println(s);
+            	}
+            	System.out.println();
+            	for (String s : correctStrings.get(1)) {
+            		System.out.println(s);
+            	} */
+
+            br.close();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+  }
+
+  public static int getQuestionIDbyAnswer(String answer){
+  		for (Vector<String> vs : correctStrings){
+  			for (String aString : vs) {
+  				if (aString.equals(answer)) {
+  					return vs.indexOf(aString);
+  				}
+  			}
+  		}
+  		return -1;
+  	}
+
+  public static int getQuizLengthbyTheme(String theme){
+  		for (int i = 0; i < themes.size(); i++){
+  			if (themes.get(i).equals(theme)){
+  				return quizLengths.get(i);
+  			}
+  		}
+  		return -1;
+  }
+
 }

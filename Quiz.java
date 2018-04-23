@@ -2,12 +2,22 @@ import javax.swing.*;
 import java.awt.*;  
 import java.awt.event.*;
 public class Quiz extends Frame implements ActionListener{  
-	JLabel QuestionText; JLabel ResultOfButtonPress;
+  JLabel QuestionText; JLabel ResultOfButtonPress;
   JButton RestartButton; JButton QuitButton;
-	JButton[] AnswerButton = new JButton[4];
+  JButton[] AnswerButton = new JButton[4];
   int QuestionNumber = 0; String CorrectAnswer; int QuestionsAnsweredCorrectly = 0;
   boolean QuizFinished = false;
-	Quiz(){  
+  String[] PossibleAnswers;
+
+  int[] chosenAnswers;
+  Statistics stats;
+  int length;
+
+  Quiz(Statistics stats){  
+    this.stats = stats;
+    length = stats.getQuizLengthbyTheme(QuizPresets.getChoice());
+    chosenAnswers = new int[length];
+    Questions.SetSizeOfFile();
     this.setTitle("Quiz");
 
     ResultOfButtonPress = new JLabel();
@@ -44,16 +54,15 @@ public class Quiz extends Frame implements ActionListener{
  
     moveToNextQuestion();
 
-	  setSize(575,500); 
-	  setLayout(null);
-	  setVisible(true);
-	  setResizable(false);
-	}  
+    setSize(575,500); 
+    setLayout(null);
+    setVisible(true);
+    setResizable(false);
+  }  
 
   public void moveToNextQuestion(){
     String[] CurrentQuestion;
     CurrentQuestion = Questions.getRandomUnansweredQuestion();
-
 
     QuestionNumber = QuestionNumber + 1;  
     QuestionText.setText("<html>Question Number: " + QuestionNumber + "<br/>" + CurrentQuestion[0] + "</html>");
@@ -62,7 +71,7 @@ public class Quiz extends Frame implements ActionListener{
     String ThirdAnswer = CurrentQuestion[3];
     String FourthAnswer = CurrentQuestion[4];
     CorrectAnswer = CurrentQuestion[5];
-    String[] PossibleAnswers = {FirstAnswer, SecondAnswer, ThirdAnswer, FourthAnswer};
+    PossibleAnswers = new String[] {FirstAnswer, SecondAnswer, ThirdAnswer, FourthAnswer};
 
     for (int i=0; i<4; i++) {
       AnswerButton[i].setText(PossibleAnswers[i]);
@@ -86,7 +95,8 @@ public class Quiz extends Frame implements ActionListener{
                       }
                       QuizFinished = false;
                       break;
-      case "Quit":    this.dispose();
+      case "Quit":    Questions.resetListOfAnsweredQuestions();
+                      this.dispose();
                       break;
       default:        if (btnLabel.equals(CorrectAnswer)){
                         ResultOfButtonPress.setText("You got it right.");
@@ -94,22 +104,32 @@ public class Quiz extends Frame implements ActionListener{
                       } else {
                         ResultOfButtonPress.setText("Too bad, the correct answer was " + CorrectAnswer);
                       }
+
+                      for (int i = 0; i < 4; i++) {
+                        if (btnLabel == PossibleAnswers[i]) {
+                          chosenAnswers[Statistics.getQuestionIDbyAnswer(CorrectAnswer)] = i+1;
+                        }
+                      }
                       break;
     }
 
-    if (QuestionNumber < Questions.SizeOfFile){
+    if (QuestionNumber < length){
       moveToNextQuestion();
     }else{
-      ResultOfButtonPress.setText("<html>" + ResultOfButtonPress.getText() + "<br/> Congratulations, you scored " + QuestionsAnsweredCorrectly + "/" + Questions.SizeOfFile + "</html>");
+      ResultOfButtonPress.setText("<html>" + ResultOfButtonPress.getText() + "<br/> Congratulations, you scored " + QuestionsAnsweredCorrectly + "/" + length + "</html>");
+      if (!QuizFinished) {
+         stats.appendQuizData(QuizPresets.getChoice(), chosenAnswers, "School 1");
+      }
       QuizFinished = true;
+      Questions.resetListOfAnsweredQuestions();
       for (int i=0; i<4; i++) {
           AnswerButton[i].removeActionListener(this);
       }
     }
    }
 
-  public static void main(String[] args) { 
-    Questions.SetSizeOfFile();
-  	new Quiz();
-  }
+  //public static void main(String[] args) { 
+   // Questions.SetSizeOfFile();
+   // new Quiz();
+  //}
 }
