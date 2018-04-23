@@ -10,7 +10,7 @@ import java.util.*;
 public class addSchool implements CallBack{
 
 	public addSchool(LogIn logIn){
-        System.out.println("asd");
+        
         logIn.getAdminPermissions(this);
 		
     }
