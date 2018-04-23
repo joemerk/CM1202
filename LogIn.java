@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 interface CallBack {                   
-    void callBack(String password);
+    void callBack();
 }
 
 class LogIn extends Frame implements ActionListener{
@@ -13,13 +13,14 @@ class LogIn extends Frame implements ActionListener{
 	JTextField textField;
 	CallBack callBack;
 	private String adminPassword;
-	public LogIn(CallBack callBackObj){
-		callBack = callBackObj;
+	public LogIn(){
+		adminPassword = hashPassword("ABC");
 	}
 	private boolean verifyPassword(String password){
 		return hashPassword(password).equals(adminPassword);
 	}
-	public void getNewPasswordInput(){
+	public void getAdminPermissions(CallBack callBackObj){
+		callBack = callBackObj;
         //JFrame frame = new JFrame();
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.Vector;
 import java.awt.Color;
 
-public class showStats extends Frame implements ActionListener{
+public class showStats extends Frame implements ActionListener, CallBack{
 	Statistics stats;
 
 	Vector<String> themes;
@@ -14,8 +14,7 @@ public class showStats extends Frame implements ActionListener{
 	JButton[] themeButton;
 	JButton QuitButton;
 
-	showStats(Statistics _stats) {
-		stats = _stats;
+	public void callBack(){
 		themes = Statistics.getThemes();
 		themeButton = new JButton[themes.size()];
 
@@ -55,6 +54,10 @@ public class showStats extends Frame implements ActionListener{
 		setLayout(null);
 		setVisible(true);
 		setResizable(false);
+	}
+	showStats(Statistics _stats,LogIn logIn) {
+		stats = _stats;
+		logIn.getAdminPermissions(this);
 
 	}
 

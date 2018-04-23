@@ -79,7 +79,7 @@ public class Menu extends Frame implements ActionListener{
 					break;
 			case "View statistics":
 					
-					new showStats(stats);
+					new showStats(stats,adminLogIn);
 					
 					
 					break;
