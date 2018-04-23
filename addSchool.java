@@ -7,31 +7,36 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.*;
 
-public class addSchool implements CallBack{
-	addSchool(LogIn logIn){
-        logIn.getAdminPermissions(this);
-    }
-    public void callBack() {
+public class addSchool {
 
-        JTextField newSchool = new JTextField(10);
+	addSchool() throws IOException {
 
-        String FileName = "Schools.txt";
+		JTextField newSchool = new JTextField(10);
+
+     	String FileName = "Schools.txt";
+
+        JLabel title = new JLabel("Add Schools");
     
         JFrame f = new JFrame();
 
-        JLabel l2 = new JLabel();
+        JLabel label1 = new JLabel();
+
         JLabel confirmAdd2 = new JLabel();
 
         JButton quitButton = new JButton("Quit");
         JButton addSchoolButton = new JButton("Add school");
 
+        title.setBounds(250,25,400,80);
         quitButton.setBounds(350, 200, 150, 30);
         newSchool.setBounds(200,100,150,30);
         addSchoolButton.setBounds(100, 200, 150, 30);
-        l2.setBounds(15,250,15,30);
-        confirmAdd2.setBounds(250,250,60,30);
-        
-        f.add(l2);
+        label1.setBounds(15,250,150,30);
+        confirmAdd2.setBounds(120,250,60,30);
+
+        label1.setVisible(true);
+
+        f.add(title);
+        f.add(label1);
         f.add(confirmAdd2);
         f.add(quitButton);
         f.add(newSchool);
@@ -42,7 +47,7 @@ public class addSchool implements CallBack{
         f.setVisible(true);
         f.setResizable(false);
     
-        quitButton.addActionListener(new ActionListener(){
+		quitButton.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e){
 
@@ -52,14 +57,15 @@ public class addSchool implements CallBack{
         });
 
         addSchoolButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
+   			public void actionPerformed(ActionEvent e) {
 
-                l2.setText("Your chosen school is:");
+                label1.setText("School Added:");
+
                 confirmAdd2.setText(newSchool.getText());
 
                 BufferedWriter bw = null;
-            
-                  try {
+      		
+      		      try {
                 // APPEND MODE SET HERE
                     bw = new BufferedWriter(new FileWriter("Schools.txt", true));
                     bw.newLine();
@@ -76,14 +82,13 @@ public class addSchool implements CallBack{
                 } // end try/catch/finally
 
 
-            }
-        });      
+   			}
+		});      
 
     }
 
 
     public static void main(String[] args) throws IOException {
-        
-        new addSchool(new LogIn("password123"));
+        new addSchool();
     }
 }
