@@ -4,7 +4,7 @@ import java.awt.event.*;
 //import java.io*;
 //import java.util.Vector;
 
-public class Menu extends Frame implements ActionListener{
+public class Menu extends Frame implements ActionListener, CallBack{
 	Statistics stats = new Statistics();
 	Quiz quiz;
 	QuizPresets qp;
@@ -93,12 +93,15 @@ public class Menu extends Frame implements ActionListener{
 					adminLogIn.getAdminPermissions(adminLogIn);
 					break;
 			case "Quit":
-					this.dispose();
+					adminLogIn.getAdminPermissions(this);
 					break;
 		}
 	}
 
 	public static void main(String[] args){
 		new Menu();
+	}
+	public void callBack(){
+		this.dispose();
 	}
 }

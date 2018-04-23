@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.*;
 
-public class addSchool {
+public class addSchool implements CallBack{
+	addSchool(LogIn logIn){
+        logIn.getAdminPermissions(this);
+    }
+    public void callBack() {
 
-	addSchool() throws IOException {
+        JTextField newSchool = new JTextField(10);
 
-		JTextField newSchool = new JTextField(10);
-
-     	String FileName = "Schools.txt";
+        String FileName = "Schools.txt";
     
         JFrame f = new JFrame();
 
@@ -40,7 +42,7 @@ public class addSchool {
         f.setVisible(true);
         f.setResizable(false);
     
-		quitButton.addActionListener(new ActionListener(){
+        quitButton.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e){
 
@@ -50,14 +52,14 @@ public class addSchool {
         });
 
         addSchoolButton.addActionListener(new ActionListener(){
-   			public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
                 l2.setText("Your chosen school is:");
                 confirmAdd2.setText(newSchool.getText());
 
                 BufferedWriter bw = null;
-      		
-      		      try {
+            
+                  try {
                 // APPEND MODE SET HERE
                     bw = new BufferedWriter(new FileWriter("Schools.txt", true));
                     bw.newLine();
@@ -74,13 +76,13 @@ public class addSchool {
                 } // end try/catch/finally
 
 
-   			}
-		});      
+            }
+        });      
 
     }
 
 
     public static void main(String[] args) throws IOException {
-        new addSchool();
+        //new addSchool();
     }
 }
