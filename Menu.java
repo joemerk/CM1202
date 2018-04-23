@@ -11,7 +11,7 @@ public class Menu extends Frame implements ActionListener{
 	LogIn adminLogIn;
 
 	JLabel title;
-	JButton setupQuiz, takeQuiz, statistics, QuitButton, setSchool;
+	JButton setupQuiz, takeQuiz, statistics, QuitButton, setSchool, changePassword;
 
 	Menu() {
 		adminLogIn = new LogIn();
@@ -43,13 +43,19 @@ public class Menu extends Frame implements ActionListener{
 	    setupQuiz.setBounds(25, 250, 200, 60);
 	    setSchool.setBounds(325, 150, 200, 60);
 	    statistics.setBounds(325, 250, 200, 60);
-	     QuitButton.setBounds(350, 400, 150, 30);
+	    QuitButton.setBounds(350, 400, 150, 30);
 
 	    add(takeQuiz);
 	    add(setupQuiz);
 	    add(setSchool);
 	    add(statistics);
 	    add(QuitButton);
+
+	    changePassword = new JButton();
+	    changePassword.addActionListener(this);
+	    changePassword.setText("Change admin password");
+	    changePassword.setBounds(50, 400, 150, 30);
+	    add(changePassword);
 
 	    setSize(575, 500);
 		setLayout(null);
@@ -82,6 +88,9 @@ public class Menu extends Frame implements ActionListener{
 					new showStats(stats,adminLogIn);
 					
 					
+					break;
+			case "Change admin password":
+					adminLogIn.getAdminPermissions(adminLogIn);
 					break;
 			case "Quit":
 					this.dispose();

@@ -7,24 +7,28 @@ interface CallBack {
     void callBack();
 }
 
-class LogIn extends Frame implements ActionListener{
+class LogIn extends Frame implements ActionListener, CallBack{
 	JLabel title;
 	JButton inputButton, cancelButton;
 	JTextField textField;
 	CallBack callBack;
+	JFrame frame;
 	private String adminPassword;
 	public LogIn(){
-		adminPassword = hashPassword("ABC");
+		
+		getNewPassword();
 	}
 	private boolean verifyPassword(String password){
 		return hashPassword(password).equals(adminPassword);
 	}
 	public void getAdminPermissions(CallBack callBackObj){
 		callBack = callBackObj;
-        //JFrame frame = new JFrame();
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		System.out.println("s");
+        JFrame frame = new JFrame();
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        textField = new JTextField("Start",20);
+
+        textField = new JTextField("Enter admin password",20);
         inputButton = new JButton();
         cancelButton = new JButton();
         inputButton.setText("Enter");
@@ -36,17 +40,50 @@ class LogIn extends Frame implements ActionListener{
         inputButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 
-        setLayout(null);
-        add(textField);
-        add(inputButton);
-        add(cancelButton);
+        frame.getContentPane().setLayout(null);
+        frame.add(textField);
+        frame.add(inputButton);
+        frame.add(cancelButton);
+       
         //addWindowListener(this);
 
         //pack frame to component preferred sizes
         //frame.pack();
 
-        setSize(500,500);
-        setVisible(true);
+        frame.setSize(500,500);
+        frame.setVisible(true);
+	}
+	public void getNewPassword(){
+		System.out.println("?");
+        JFrame frame = new JFrame();
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        textField = new JTextField("Enter new password",20);
+        textField.setText("Enter new password");
+        inputButton = new JButton();
+        cancelButton = new JButton();
+        inputButton.setText("Set");
+        cancelButton.setText("Cancel");
+        cancelButton.setBounds(25, 150, 200, 60);
+        textField.setBounds(25, 250, 200, 60);
+        inputButton.setBounds(25, 350, 200, 60);
+        // Add the label to the JFrame
+        inputButton.addActionListener(this);
+		cancelButton.addActionListener(this);
+
+        frame.getContentPane().setLayout(null);
+
+        frame.add(textField);
+        frame.add(inputButton);
+        frame.add(cancelButton);
+        
+        //addWindowListener(this);
+
+        //pack frame to component preferred sizes
+        //frame.pack();
+
+        frame.setSize(500,500);
+        frame.setVisible(true);
 	}
 	public void actionPerformed(ActionEvent evt) {
 		String btnLabel = evt.getActionCommand();	
@@ -55,10 +92,14 @@ class LogIn extends Frame implements ActionListener{
 			case "Enter":
 			    	System.out.println("Enter");
 			    	call(callBack,textField.getText());
-			    	this.dispose();
+			    	frame.dispose();
 					break;
 			case "Cancel":
-					this.dispose();
+					frame.dispose();
+					break;
+			case "Set":
+					changePassword(textField.getText());
+					frame.dispose();
 					break;
 		}
 	}
@@ -66,6 +107,10 @@ class LogIn extends Frame implements ActionListener{
 		if (verifyPassword(password)){
 			callBack.callBack();
 		}
+	}
+	public void changePassword(String password){
+		adminPassword = hashPassword(password);
+		System.out.println(adminPassword);
 	}
 	private String hashPassword(String password){
 		//try{
@@ -80,17 +125,9 @@ class LogIn extends Frame implements ActionListener{
 		return password;
 		
 	}
-	//public void changePassword(){
-	//	
-	//		if (getAdminPermissions()){
-	//			input.getNewPasswordInput();
-	//			adminPassword = hashPassword(tempInput);
-	//		}
-	//		else{
-	//			JOptionPane.showMessageDialog(null, "infoMessage", "InfoBox: ", JOptionPane.INFORMATION_MESSAGE);
-	//		}
-	//
-	//}
+	public void callBack(){
+		getNewPassword();
+	}
 
 
 
