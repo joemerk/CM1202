@@ -83,6 +83,7 @@ public class addSchool implements CallBack{
 
 
     public static void main(String[] args) throws IOException {
-        //new addSchool();
+        
+        new addSchool(new LogIn("password123"));
     }
 }

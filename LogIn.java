@@ -18,6 +18,10 @@ class LogIn extends Frame implements ActionListener, CallBack{
 		
 		getNewPassword();
 	}
+	public LogIn(String password){
+		adminPassword = password;
+		
+	}
 	private boolean verifyPassword(String password){
 		return hashPassword(password).equals(adminPassword);
 	}
