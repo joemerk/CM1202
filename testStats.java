@@ -16,21 +16,21 @@ class testStats{
 		// The first argument is the quiz ID, second is an array of ints representing the choices made during the quiz.
 		// Third argument is School.
 
-		stats.appendQuizData(0, new int[]{1,4,3,4,1,3,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{1,3,3,1,1,1,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{3,4,3,4,1,1,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{3,4,3,4,1,1,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{1,4,2,3,1,2,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{3,4,3,3,1,2,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{2,1,2,1,1,2,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{1,4,3,3,1,2,1,2,3,2,1}, "Kings of Wessex");
-		stats.appendQuizData(0, new int[]{3,4,1,4,1,3,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{1,4,3,4,1,3,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{1,3,3,1,1,1,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{3,4,3,4,1,1,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{3,4,3,4,1,1,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{1,4,2,3,1,2,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{3,4,3,3,1,2,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{2,1,2,1,1,2,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{1,4,3,3,1,2,1,2,3,2,1}, "Kings of Wessex");
+		stats.appendQuizData("0", new int[]{3,4,1,4,1,3,1,2,3,2,1}, "Kings of Wessex");
 
 		//Adding attempts to the second quiz (ID: 1)
-		stats.appendQuizData(1, new int[]{3,1}, "Big Boy school");
-		stats.appendQuizData(1, new int[]{3,2}, "Kings of Wessex");
-		stats.appendQuizData(1, new int[]{4,4}, "Kings of Wessex");
-		stats.appendQuizData(1, new int[]{1,2}, "Kings of Wessex");
+		stats.appendQuizData("1", new int[]{3,1}, "Big Boy school");
+		stats.appendQuizData("1", new int[]{3,2}, "Kings of Wessex");
+		stats.appendQuizData("1", new int[]{4,4}, "Kings of Wessex");
+		stats.appendQuizData("1", new int[]{1,2}, "Kings of Wessex");
 
 		//Generate the interpretation of all attempts on QUIZ 1 (Quiz with ID: 1)
 		stats.generateInterpretation(1);
