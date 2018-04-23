@@ -38,7 +38,7 @@ public class QuizPresets extends Frame implements ActionListener{
 			in.close();
 		}
 		catch( Exception e ) {
-            System.out.println( "Problem reading file: " + filename );
+            System.out.println( "Problem reading file: " + filename +e );
             throw e;  // re-raise exception
         }
 
