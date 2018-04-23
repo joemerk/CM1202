@@ -49,6 +49,29 @@ class Questions {
         SizeOfFile = SizeOfFile + 1;
     }
 
+    public static void deleteQuestion (String[] questionDel) {
+      String FileName = "Questions.txt";
+      int rowToBeDeleted = 0;
+
+      try{
+        //rowToBeDeleted = rowToBeDeleted - 1;                                  //this is commented otherwise the program wouldn't run but it needs to be uncommented when
+        BufferedWriter writer = new BufferedWriter(new FileWriter(FileName));   //it gets combined with the admin thingy
+        for (int i = 0; i < questionDel.length; i++){
+          if (rowToBeDeleted == i){
+            i++;
+          }
+          if (i<questionDel.length){
+            writer.write(questionDel[i] + ",");
+            writer.flush();
+            writer.close();
+          }
+        }
+      } catch (Exception e){
+        e.printStackTrace();
+      }
+      SizeOfFile = SizeOfFile - 1;
+    }
+
      public static String[] getRandomUnansweredQuestion( ){
       	String FileName = "Questions.txt";
       	String CurrentLineToBeRead;
