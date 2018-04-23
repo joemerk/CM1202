@@ -35,7 +35,7 @@ public class Menu extends Frame implements ActionListener, CallBack{
 
 		setupQuiz.setText("Select Theme");
 		takeQuiz.setText("Take Quiz");
-		setSchool.setText("Select School");
+		setSchool.setText("Add School");
 		statistics.setText("View statistics");
 		QuitButton.setText("Quit");
 
@@ -77,11 +77,14 @@ public class Menu extends Frame implements ActionListener, CallBack{
 			case "Take Quiz":
     				new Quiz(stats);
 					break;
-			case "Select School":
+			case "Add School":
 					try {
-  					new addSchool(adminLogIn);
+						System.out.println("sdas");
+  						new addSchool(adminLogIn);
 					}
-					catch(Exception E){};
+					catch(Exception E){
+
+					};
 					break;
 			case "View statistics":
 					

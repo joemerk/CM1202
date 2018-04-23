@@ -7,13 +7,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.*;
 
-public class addSchool {
+public class addSchool implements CallBack{
 
-	addSchool() throws IOException {
+	public addSchool(LogIn logIn){
+        System.out.println("asd");
+        logIn.getAdminPermissions(this);
+		
+    }
+    public void callBack(){
+        JTextField newSchool = new JTextField(10);
 
-		JTextField newSchool = new JTextField(10);
-
-     	String FileName = "Schools.txt";
+        String FileName = "Schools.txt";
 
         JLabel title = new JLabel("Add Schools");
     
@@ -47,7 +51,7 @@ public class addSchool {
         f.setVisible(true);
         f.setResizable(false);
     
-		quitButton.addActionListener(new ActionListener(){
+        quitButton.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e){
 
@@ -57,15 +61,15 @@ public class addSchool {
         });
 
         addSchoolButton.addActionListener(new ActionListener(){
-   			public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
                 label1.setText("School Added:");
 
                 confirmAdd2.setText(newSchool.getText());
 
                 BufferedWriter bw = null;
-      		
-      		      try {
+            
+                  try {
                 // APPEND MODE SET HERE
                     bw = new BufferedWriter(new FileWriter("Schools.txt", true));
                     bw.newLine();
@@ -82,13 +86,13 @@ public class addSchool {
                 } // end try/catch/finally
 
 
-   			}
-		});      
+            }
+        });      
 
     }
 
 
     public static void main(String[] args) throws IOException {
-        new addSchool();
+        new addSchool(new LogIn("Password123"));
     }
 }
