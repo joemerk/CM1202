@@ -116,16 +116,16 @@ class LogIn extends Frame implements ActionListener, CallBack{
 		System.out.println(adminPassword);
 	}
 	private String hashPassword(String password){
-		//try{
-		//	MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-		//	messageDigest.update(password.getBytes());
-		//	String encryptedString = new String(messageDigest.digest());
-		//	return encryptedString;
-		//}catch (Exception e) {
-		//	System.out.println("error " + e.getMessage());
-		//	return "";
-		//}
-		return password;
+		try{
+			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(password.getBytes());
+			String encryptedString = new String(messageDigest.digest());
+			return encryptedString;
+		}catch (Exception e) {
+			System.out.println("error " + e);
+			return "";
+		}
+		//return password;
 		
 	}
 	public void callBack(){
