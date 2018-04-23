@@ -4,17 +4,15 @@ import java.awt.event.*;
 //import java.io*;
 //import java.util.Vector;
 
-public class Menu extends Frame implements ActionListener, CallBack{
+public class Menu extends Frame implements ActionListener{
 	Statistics stats = new Statistics();
 	Quiz quiz;
 	QuizPresets qp;
-	LogIn adminLogIn;
 
 	JLabel title;
-	JButton setupQuiz, takeQuiz, statistics, QuitButton, setSchool, changePassword;
+	JButton setupQuiz, takeQuiz, statistics, QuitButton, setSchool;
 
 	Menu() {
-		adminLogIn = new LogIn();
 
 		title = new JLabel();
 		title.setBounds(100,50,400,80);
@@ -43,7 +41,7 @@ public class Menu extends Frame implements ActionListener, CallBack{
 	    setupQuiz.setBounds(25, 250, 200, 60);
 	    setSchool.setBounds(325, 150, 200, 60);
 	    statistics.setBounds(325, 250, 200, 60);
-	    QuitButton.setBounds(350, 400, 150, 30);
+	     QuitButton.setBounds(350, 400, 150, 30);
 
 	    add(takeQuiz);
 	    add(setupQuiz);
@@ -51,17 +49,11 @@ public class Menu extends Frame implements ActionListener, CallBack{
 	    add(statistics);
 	    add(QuitButton);
 
-	    changePassword = new JButton();
-	    changePassword.addActionListener(this);
-	    changePassword.setText("Change admin password");
-	    changePassword.setBounds(50, 400, 150, 30);
-	    add(changePassword);
-
 	    setSize(575, 500);
 		setLayout(null);
 		setVisible(true);
 		setResizable(false);
-		adminLogIn.bringToFront();
+
 	}
 
 	public void actionPerformed(ActionEvent evt) {
@@ -75,36 +67,27 @@ public class Menu extends Frame implements ActionListener, CallBack{
 					catch(Exception E){};
 					break;
 			case "Take Quiz":
-    				new Quiz(stats);
+    				try {
+  					new School(stats);
+					}
+					catch(Exception E){};
 					break;
 			case "Add School":
 					try {
-						
-  						new addSchool(adminLogIn);
+  					new addSchool();
 					}
-					catch(Exception E){
-
-					};
+					catch(Exception E){};
 					break;
 			case "View statistics":
-					
-					new showStats(stats,adminLogIn);
-					
-					
-					break;
-			case "Change admin password":
-					adminLogIn.getAdminPermissions(adminLogIn);
+					new showStats(stats);
 					break;
 			case "Quit":
-					adminLogIn.getAdminPermissions(this);
+					this.dispose();
 					break;
 		}
 	}
 
 	public static void main(String[] args){
 		new Menu();
-	}
-	public void callBack(){
-		this.dispose();
 	}
 }
