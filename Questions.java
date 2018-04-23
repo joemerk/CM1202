@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class Questions {
 	static ArrayList<Integer> ListOfAnsweredQuestions = new ArrayList<>();
-	static int SizeOfFile = 10;
+	static int SizeOfFile = 0;
 
 	public Questions( String title, String barcode) {
 	}
@@ -25,6 +25,7 @@ class Questions {
       e.printStackTrace();
     }
 
+    //System.out.println("Count is " + Count);
     SizeOfFile = Count;
   }
 
@@ -51,9 +52,12 @@ class Questions {
      public static String[] getRandomUnansweredQuestion( ){
       	String FileName = "Questions.txt";
       	String CurrentLineToBeRead;
-      	String[] QuestionReturned = {};
+      	String[] QuestionReturned = new String[] {"","","","","","",""}; //had to predeclare these values because of indexing issue
       	int LineNumber;
+        boolean endOfQuestions = false;
+
         do{
+          //QuestionReturned = new String[] {}; 
           Random Random = new Random();
       		do{
       		LineNumber = Random.nextInt(SizeOfFile) + 1;
@@ -75,7 +79,7 @@ class Questions {
           } catch (Exception e) {
               e.printStackTrace();
           }
-        }while(QuestionReturned[6].equals(QuizPresets.getChoice()) == false);
+        } while(QuestionReturned[6].equals(QuizPresets.getChoice()) == false);
 
         ListOfAnsweredQuestions.add(LineNumber);
         return QuestionReturned;

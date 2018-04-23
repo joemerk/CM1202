@@ -8,12 +8,21 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class QuizPresets extends Frame implements ActionListener{
-	String chosenTheme = "";
+
+    JButton QuitButton;
+
+	static String chosenTheme = "History";
 	QuizPresets() throws Exception{
 		//JFrame f = new JFrame();
 		ArrayList<String> themes = new ArrayList<String>();
 		String filename = "Questions.txt";
 		File fileIn = new File(filename);
+
+        QuitButton = new JButton();
+        QuitButton.addActionListener(this);
+        QuitButton.setText("Quit");
+        QuitButton.setBounds(350, 400, 150, 30);
+        add(QuitButton);
 
 		try{
 			Scanner in = new Scanner(fileIn);
@@ -60,15 +69,21 @@ public class QuizPresets extends Frame implements ActionListener{
 
     }
     public void actionPerformed(ActionEvent evt){
+
     	String btnLabel = evt.getActionCommand();
+        if (btnLabel.equals("Quit")){
+            this.dispose();
+        }
+        else{
     	chosenTheme = btnLabel;
+        }
     }
 
     public static String getChoice(){
-        return "space";
+        return chosenTheme;
     }
 
-	public static void main(String[] args) throws Exception {
-		new QuizPresets();
-	}
+	//public static void main(String[] args) throws Exception {
+	//	new QuizPresets();
+	//}
 }
